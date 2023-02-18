@@ -1,0 +1,409 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Nginx.conf--（负载均衡） 基本配置说明 | Nues</title><meta name="author" content="路伊斯"><meta name="copyright" content="路伊斯"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="负载均衡建立在现有网络结构之上，它提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx.conf--（负载均衡） 基本配置说明">
+<meta property="og:url" content="http://www.nues.cn/post/8jj8s7hh.html">
+<meta property="og:site_name" content="Nues">
+<meta property="og:description" content="负载均衡建立在现有网络结构之上，它提供了一种廉价有效透明的方法扩展网络设备和服务器的带宽、增加吞吐量、加强网络数据处理能力、提高网络的灵活性和可用性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.ax1x.com/2023/02/06/pScJe3V.jpg">
+<meta property="article:published_time" content="2022-12-14T04:11:22.000Z">
+<meta property="article:modified_time" content="2023-02-06T06:14:53.897Z">
+<meta property="article:author" content="路伊斯">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.ax1x.com/2023/02/06/pScJe3V.jpg"><link rel="shortcut icon" href="https://s1.ax1x.com/2023/02/08/pS2qqyj.png"><link rel="canonical" href="http://www.nues.cn/post/8jj8s7hh"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"ZV0PFFM3X8","apiKey":"c8cd22f70693bc7779aef249088de605","indexName":"your indexName","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Nginx.conf--（负载均衡） 基本配置说明',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-06 14:14:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><span id="fps"></span><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s1.ax1x.com/2023/02/08/pS2qqyj.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">54</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">49</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-globe"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/dailyorder/"><i class="fa-fw fas fa-code"></i><span> 命令</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s1.ax1x.com/2023/02/06/pScJe3V.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Nues</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-globe"></i><span> 目录</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/dailyorder/"><i class="fa-fw fas fa-code"></i><span> 命令</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Nginx.conf--（负载均衡） 基本配置说明</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-12-14T04:11:22.000Z" title="发表于 2022-12-14 12:11:22">2022-12-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-06T06:14:53.897Z" title="更新于 2023-02-06 14:14:53">2023-02-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/">系统运维</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title="Nginx.conf--（负载均衡） 基本配置说明"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="twikoo_visitors"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一、正向代理"><a href="#一、正向代理" class="headerlink" title="一、正向代理"></a>一、正向代理</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>位于客户端与原始服务器之间的服务器，为了获取原始服务器数据，客户端向代理服务器发送请求并指定请求目标（原始服务器），然后代理服务器接收请求并转换给原始服务器，并将响应数据返回客户端。</p>
+<p><strong>正向代理是客户端使用的，对客户端进行代理，客户端知道并主动使用代理</strong></p>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>访问原来无法访问的资源，FQ</li>
+<li>可以做缓存，加速资源的访问</li>
+<li>对客户端上网进行认证授权</li>
+<li>上网行为管理，记录用户访问记录</li>
+</ul>
+<h1 id="二、反向代理服务器"><a href="#二、反向代理服务器" class="headerlink" title="二、反向代理服务器"></a>二、反向代理服务器</h1><h2 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h2><p>客户端发送请求到服务器（客户端认为是原始服务器，实际上是一台反向服务器），反向代理服务器接收请求并将请求转发给内部网络中的多台集群服务器，并装饰响应的数据返回给客户端</p>
+<p><strong>反射代理一般用于服务器集群，分布式等，实现负载均衡</strong></p>
+<h2 id="作用-1"><a href="#作用-1" class="headerlink" title="作用"></a>作用</h2><ul>
+<li>负载均衡，提高处理和响应速度</li>
+<li>保证内网的安全，隐藏服务器的信息，防止<code>web</code>攻击</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p><strong>使用Nginx作为其他服务器</strong></p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h4 id="1-创建虚拟主机配置文件，并配置反向代理"><a href="#1-创建虚拟主机配置文件，并配置反向代理" class="headerlink" title="1.创建虚拟主机配置文件，并配置反向代理**"></a>1.创建虚拟主机配置文件，并配置反向代理**</h4><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment">#cd /etc/nginx/conf.d/</span></span><br><span class="line"><span class="comment">#cp /default.conf proxy.conf</span></span><br><span class="line"><span class="comment">#vi /proxy.conf</span></span><br><span class="line"></span><br><span class="line"><span class="section">upstream</span>   tomcat_server &#123;</span><br><span class="line"></span><br><span class="line">         <span class="attribute">server</span> <span class="number">192.168.1.66:8080</span>  weght=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        <span class="attribute">listen</span>    <span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span>  www.tomcat.com;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_pass</span> http://tomcat_server;   <span class="comment">#指定何理的后台服务器</span></span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>重启服务</strong><code>nginx -s reload</code></p>
+<h4 id="2-配置域名解析"><a href="#2-配置域名解析" class="headerlink" title="2.配置域名解析**"></a>2.配置域名解析**</h4><h4 id="3、访问：可直接通过www-taocat-com-访问http-192-168-1-66-8080"><a href="#3、访问：可直接通过www-taocat-com-访问http-192-168-1-66-8080" class="headerlink" title="3、访问：可直接通过www.taocat.com 访问http://192.168.1.66:8080"></a>3、访问：可直接通过www.taocat.com 访问<a target="_blank" rel="noopener" href="http://192.168.1.66/">http://192.168.1.66</a>:8080</h4><h1 id="三、负载均衡"><a href="#三、负载均衡" class="headerlink" title="三、负载均衡"></a>三、负载均衡</h1><h2 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h2><p>反向代理服务器将接收到的请求按照一定的规则分发到不同的服务器进行处理，从而提高系统响应和处理速度，称为负载均衡</p>
+<h2 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h2><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment">#vi /proxy.conf</span></span><br><span class="line"></span><br><span class="line"><span class="section">upstream</span>   tomcat_server &#123;</span><br><span class="line"></span><br><span class="line"><span class="attribute">server</span> <span class="number">192.168.1.67:8080</span> </span><br><span class="line"></span><br><span class="line">server <span class="number">192.168.1.68:8080</span></span><br><span class="line"></span><br><span class="line">server <span class="number">192.168.1.69:8080</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        <span class="attribute">listen</span>    <span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span>  www.tomcat.com;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_pass</span> http://tomcat_server;   <span class="comment">#指定何理的后台服务器</span></span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">可以写成</span><br><span class="line"></span><br><span class="line">    <span class="comment">#其他页面反向代理到tomcat容器</span></span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> <span class="regexp">~ .*$</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">index</span> index.jsp index.html;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_pass</span> http: http://tomcat_server;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-访问"><a href="#3-访问" class="headerlink" title="3.访问"></a>3.访问</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">默认轮循</span><br><span class="line"></span><br><span class="line">可直接通过www.taocat.com 访问http://192.168.1.69:8080、http://192.168.1.67:8080 、http://192.168.1.68:8080</span><br></pre></td></tr></table></figure>
+<h1 id="四、Nginx服务器之负载均衡策略"><a href="#四、Nginx服务器之负载均衡策略" class="headerlink" title="四、Nginx服务器之负载均衡策略"></a>四、Nginx服务器之负载均衡策略</h1><p>　负载均衡用于从<code>upstream</code>模块定义的后端服务器列表中选取一台服务器接受用户的请求。一个最基本的<code>upstream</code>模块是这样的，模块内的<code>server</code>是服务器列表：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line">**<span class="comment">#动态服务器组**</span></span><br><span class="line"></span><br><span class="line">    <span class="section">upstream</span> dynamic_zuoyu &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server</span> localhost:<span class="number">8080</span>;  <span class="comment">#tomcat 7.0</span></span><br><span class="line"></span><br><span class="line">        <span class="attribute">server</span> localhost:<span class="number">8081</span>;  <span class="comment">#tomcat 8.0</span></span><br><span class="line"></span><br><span class="line">        <span class="attribute">server</span> localhost:<span class="number">8082</span>;  <span class="comment">#tomcat 8.5</span></span><br><span class="line"></span><br><span class="line">        <span class="attribute">server</span> localhost:<span class="number">8083</span>;  <span class="comment">#tomcat 9.0</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>**在<code>upstream</code>模块配置完成后，要让指定的访问反向代理到服务器列表：</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line">    <span class="comment">#其他页面反向代理到tomcat容器**</span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="section">location</span> <span class="regexp">~ .*$</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">index</span> index.jsp index.html;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">proxy_pass</span> http://dynamic_zuoyu;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>　<strong>这就是最基本的负载均衡实例，但这不足以满足实际需求；目前Nginx服务器的<code>upstream</code>模块支持6种方式的分配：</strong></p>
+<h2 id="1、轮询"><a href="#1、轮询" class="headerlink" title="1、轮询"></a>1、轮询</h2><p>最基本的配置方法，上面的例子就是轮询的方式，它是<code>upstream</code>模块默认的负载均衡默认策略。每个请求会按时间顺序逐一分配到不同的后端服务器。</p>
+<p><strong>有如下参数：</strong></p>
+<p><strong>注意：</strong></p>
+<ol>
+<li><p>在轮询中，如果服务器down掉了，会自动剔除该服务器。</p>
+</li>
+<li><p>缺省配置就是轮询策略。</p>
+</li>
+<li><p>此策略适合服务器配置相当，无状态且短平快的服务使用。</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">upstream</span> backserver &#123;</span><br><span class="line">   </span><br><span class="line">   <span class="attribute">server</span> <span class="number">192.168.0.14</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="attribute">server</span> <span class="number">192.168.0.15</span>;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>}<br>   <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">   </span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">## 2、weight</span><br><span class="line"></span><br><span class="line">**权重方式，在轮询策略的基础上指定轮询的几率。例子如下：**</span><br><span class="line"></span><br><span class="line">​```nginx</span><br><span class="line">#动态服务器组</span><br><span class="line"></span><br><span class="line">    upstream dynamic_zuoyu &#123;</span><br><span class="line"></span><br><span class="line">        server localhost:8080   weight=2;  #tomcat 7.0</span><br><span class="line"></span><br><span class="line">        server localhost:8081;  #tomcat 8.0</span><br><span class="line"></span><br><span class="line">        server localhost:8082   backup;  #tomcat 8.5</span><br><span class="line"></span><br><span class="line">        server localhost:8083   max_fails=3 fail_timeout=20s;  #tomcat 9.0</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在该例子中，weight参数用于指定轮询机率，weight的默认值为1,；weight的数值与访问比率成正比，比如Tomcat 7.0被访问的机率为其他服务器的两倍。</p>
+<p><strong>注意：</strong></p>
+<ol>
+<li>权重越高分配到需要处理的请求越多。</li>
+<li>此策略可以与<code>least_conn</code>和<code>ip_hash</code>结合使用。</li>
+<li>此策略比较适合服务器的硬件配置差别比较大的情况。</li>
+</ol>
+<h2 id="3、ip-hash"><a href="#3、ip-hash" class="headerlink" title="3、ip_hash"></a>3、ip_hash</h2><p>指定负载均衡器按照基于客户端IP的分配方式，这个方法确保了相同的客户端的请求一直发送到相同的服务器，以保证session会话。这样每个访客都固定访问一个后端服务器，可以解决session不能跨服务器的问题。</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment">#动态服务器组</span></span><br><span class="line"></span><br><span class="line"><span class="section">upstream</span> dynamic_zuoyu &#123;</span><br><span class="line"></span><br><span class="line">    ip_hash;    <span class="comment">#保证每个访客固定访问一个后端服务器</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8080</span>   weight=<span class="number">2</span>;  <span class="comment">#tomcat 7.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8081</span>;  <span class="comment">#tomcat 8.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8082</span>;  <span class="comment">#tomcat 8.5</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8083</span>   max_fails=<span class="number">3</span> fail_timeout=<span class="number">20s</span>;  <span class="comment">#tomcat 9.0</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ol>
+<li>在<code>nginx</code>版本<code>1.3.1</code>之前，不能在<code>ip_hash</code>中使用权重<code>（weight）</code>。</li>
+<li><code>ip_hash</code>不能与<code>backup</code>同时使用。</li>
+<li>此策略适合有状态服务，比如<code>session</code>。</li>
+<li>当有服务器需要剔除，必须手动<code>down</code>掉。</li>
+</ol>
+<h2 id="4、least-conn"><a href="#4、least-conn" class="headerlink" title="4、least_conn"></a>4、least_conn</h2><p>把请求转发给连接数较少的后端服务器。轮询算法是把请求平均的转发给各个后端，使它们的负载大致相同；但是，有些请求占用的时间很长，会导致其所在的后端负载较高。这种情况下，least_conn这种方式就可以达到更好的负载均衡效果。</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line">   <span class="comment">#动态服务器组</span></span><br><span class="line"></span><br><span class="line"><span class="section">upstream</span> dynamic_zuoyu &#123;</span><br><span class="line"></span><br><span class="line">    least_conn;    <span class="comment">#把请求转发给连接数较少的后端服务器</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8080</span>   weight=<span class="number">2</span>;  <span class="comment">#tomcat 7.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8081</span>;  <span class="comment">#tomcat 8.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8082</span> backup;  <span class="comment">#tomcat 8.5</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8083</span>   max_fails=<span class="number">3</span> fail_timeout=<span class="number">20s</span>;  <span class="comment">#tomcat 9.0</span></span><br></pre></td></tr></table></figure>
+<p>}</p>
+<p><strong>注意：</strong></p>
+<ol>
+<li>此负载均衡策略适合请求处理时间长短不一造成服务器过载的情况。</li>
+</ol>
+<h2 id="5-第三方策略"><a href="#5-第三方策略" class="headerlink" title="5.第三方策略"></a>5.第三方策略</h2><p><strong>第三方的负载均衡策略的实现需要安装第三方插件。</strong></p>
+<h3 id="1-fair"><a href="#1-fair" class="headerlink" title="1. fair"></a>1. fair</h3><p><strong>按照服务器端的响应时间来分配请求，响应时间短的优先分配。</strong></p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line">动态服务器组</span><br><span class="line"></span><br><span class="line"><span class="section">upstream</span> dynamic_zuoyu &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8080</span>;  <span class="comment">#tomcat 7.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8081</span>;  <span class="comment">#tomcat 8.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8082</span>;  <span class="comment">#tomcat 8.5</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8083</span>;  <span class="comment">#tomcat 9.0</span></span><br><span class="line"></span><br><span class="line">    fair;    <span class="comment">#实现响应时间短的优先分配</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-url-hash"><a href="#2-url-hash" class="headerlink" title="2. url_hash"></a>2. url_hash</h3><p>　　</p>
+<p>按访问<code>url</code>的<code>hash</code>结果来分配请求，使每个<code>url</code>定向到同一个后端服务器，要配合缓存命中来使用。同一个资源多次请求，可能会到达不同的服务器上，导致不必要的多次下载，缓存命中率不高，以及一些资源时间的浪费。而使用<code>url_hash</code>，可以使得同一个<code>url</code>（也就是同一个资源请求）会到达同一台服务器，一旦缓存住了资源，再此收到请求，就可以从缓存中读取。　</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment">#动态服务器组</span></span><br><span class="line"></span><br><span class="line"><span class="section">upstream</span> dynamic_zuoyu &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">hash</span> <span class="variable">$request_uri</span>;    <span class="comment">#实现每个url定向到同一个后端服务器</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8080</span>;  <span class="comment">#tomcat 7.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8081</span>;  <span class="comment">#tomcat 8.0</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8082</span>;  <span class="comment">#tomcat 8.5</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">server</span> localhost:<span class="number">8083</span>;  <span class="comment">#tomcat 9.0</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="五、动静分离"><a href="#五、动静分离" class="headerlink" title="五、动静分离"></a>五、动静分离</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>tomcat在处理静态资源时效率不高，默认情况下所有资源都由tomcat处理，会导致web应用响应慢，占用系统资源**</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><ul>
+<li>将静态资源交由<code>Nginx</code>处理，动态资源仍由<code>tomcat</code>处理，实现动静分离。</li>
+<li>实际上就把<code>Nginx</code>作为静态资源服务器</li>
+</ul>
+<h2 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h2><h3 id="编辑虚拟主机配置文件"><a href="#编辑虚拟主机配置文件" class="headerlink" title="编辑虚拟主机配置文件"></a>编辑虚拟主机配置文件</h3><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">vi</span> taobao.conf</span><br><span class="line">server&#123;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span> erp.zh-jieli.com;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">index</span> index; <span class="comment">#默认主页为 /index</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">#proxy_pass http://jieli;</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> <span class="regexp">~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff)</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_cache</span> cache_one;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_cache_valid</span> <span class="number">200</span> <span class="number">304</span> <span class="number">302</span> <span class="number">5d</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_cache_valid</span> any <span class="number">5d</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_cache_key</span> <span class="string">&#x27;<span class="variable">$host</span>:<span class="variable">$server_port</span><span class="variable">$request_uri</span>&#x27;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">add_header</span> X-Cache <span class="string">&#x27;<span class="variable">$upstream_cache_status</span> from <span class="variable">$host</span>&#x27;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_pass</span> http://static.zh-jieli.com; //查找位置</span><br><span class="line"></span><br><span class="line">            <span class="comment">#所有静态文件直接读取硬盘</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">#root /var/lib/tomcat7/webapps/JieLiERP/WEB-INF ;</span></span><br><span class="line"></span><br><span class="line">            <span class="attribute">expires</span> <span class="number">30d</span>; <span class="comment">#缓存30天</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#其他页面反向代理到tomcat容器</span></span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> <span class="regexp">~ .*$</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">index</span> index;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">proxy_pass</span> http://zh-jieli.com;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    server&#123;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">listen</span> <span class="number">808</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span> static;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> <span class="regexp">~ .*\.(js|css|ico|png|jpg|eot|svg|ttf|woff)</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">#所有静态文件直接读取硬盘</span></span><br><span class="line"></span><br><span class="line">            <span class="attribute">root</span> /var/lib/tomcat7/webapps/JieLiERP/WEB-INF ;</span><br><span class="line"></span><br><span class="line">            <span class="attribute">expires</span> <span class="number">30d</span>; <span class="comment">#缓存30天</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<h1 id="六、高并发处理"><a href="#六、高并发处理" class="headerlink" title="六、高并发处理"></a>六、高并发处理</h1><ol>
+<li>负载均衡：集群</li>
+<li>动静分离：使用<code>Nginx</code>、<code>cdn</code></li>
+<li>缓存：以空间换时间，提高系统效率</li>
+<li>限流：流量控制</li>
+<li>降级：服务降载</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://www.nues.cn">路伊斯</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.nues.cn/post/8jj8s7hh.html">http://www.nues.cn/post/8jj8s7hh.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.nues.cn" target="_blank">Nues</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Nginx/">Nginx</a></div><div class="post_share"><div class="social-share" data-image="https://s1.ax1x.com/2023/02/06/pScJe3V.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/post/fwf3fg36.html"><img class="prev-cover" src="https://s1.ax1x.com/2023/02/06/pScE8h9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Centos7使用pip3命令安装Ansible 2.11</div></div></a></div><div class="next-post pull-right"><a href="/post/930jjr8u.html"><img class="next-cover" src="https://s1.ax1x.com/2023/02/06/pScRSgO.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">单臂路由配置实例</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/post/5g4fdd33.html" title="Nginx 压力测试"><img class="cover" src="https://s1.ax1x.com/2023/02/06/pScJe3V.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-21</div><div class="title">Nginx 压力测试</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s1.ax1x.com/2023/02/08/pS2qqyj.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">路伊斯</div><div class="author-info__description">2023年5月前通过RHCE，加油冲冲冲</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">54</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">49</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/isslower"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/isslower" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:dosbat666@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://nues.cn/link" target="_blank" title="友链"><i class="fas fa-link"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">去日不可追,来日犹可期</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">一、正向代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">作用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">二、反向代理服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5-1"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8-1"><span class="toc-number">2.2.</span> <span class="toc-text">作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4"><span class="toc-number">2.3.1.</span> <span class="toc-text">步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B9%B6%E9%85%8D%E7%BD%AE%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">1.创建虚拟主机配置文件，并配置反向代理**</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">2.配置域名解析**</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E8%AE%BF%E9%97%AE%EF%BC%9A%E5%8F%AF%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87www-taocat-com-%E8%AE%BF%E9%97%AEhttp-192-168-1-66-8080"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">3、访问：可直接通过www.taocat.com 访问http:&#x2F;&#x2F;192.168.1.66:8080</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">3.</span> <span class="toc-text">三、负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5"><span class="toc-number">3.1.</span> <span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">2.配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%AE%BF%E9%97%AE"><span class="toc-number">3.3.</span> <span class="toc-text">3.访问</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-number">4.</span> <span class="toc-text">四、Nginx服务器之负载均衡策略</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E8%BD%AE%E8%AF%A2"><span class="toc-number">4.1.</span> <span class="toc-text">1、轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81ip-hash"><span class="toc-number">4.2.</span> <span class="toc-text">3、ip_hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81least-conn"><span class="toc-number">4.3.</span> <span class="toc-text">4、least_conn</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%AC%AC%E4%B8%89%E6%96%B9%E7%AD%96%E7%95%A5"><span class="toc-number">4.4.</span> <span class="toc-text">5.第三方策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-fair"><span class="toc-number">4.4.1.</span> <span class="toc-text">1. fair</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-url-hash"><span class="toc-number">4.4.2.</span> <span class="toc-text">2. url_hash</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB"><span class="toc-number">5.</span> <span class="toc-text">五、动静分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">5.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-number">5.2.</span> <span class="toc-text">解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-1"><span class="toc-number">5.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">5.3.1.</span> <span class="toc-text">编辑虚拟主机配置文件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%AB%98%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">六、高并发处理</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/isdnuw23.html" title="Linux 交互权限 /bin/false 与/sbin/nologin区别？"><img src="https://s1.ax1x.com/2023/02/06/pScEgjP.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux 交互权限 /bin/false 与/sbin/nologin区别？"/></a><div class="content"><a class="title" href="/post/isdnuw23.html" title="Linux 交互权限 /bin/false 与/sbin/nologin区别？">Linux 交互权限 /bin/false 与/sbin/nologin区别？</a><time datetime="2023-02-18T06:29:20.000Z" title="发表于 2023-02-18 14:29:20">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/23dsad21.html" title="RHCSA 练习题中篇"><img src="https://s1.ax1x.com/2023/02/18/pSLpvmF.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RHCSA 练习题中篇"/></a><div class="content"><a class="title" href="/post/23dsad21.html" title="RHCSA 练习题中篇">RHCSA 练习题中篇</a><time datetime="2023-02-18T04:01:05.000Z" title="发表于 2023-02-18 12:01:05">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/23213g24.html" title="RHCSA 练习题上篇"><img src="https://s1.ax1x.com/2023/02/18/pSLpvmF.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RHCSA 练习题上篇"/></a><div class="content"><a class="title" href="/post/23213g24.html" title="RHCSA 练习题上篇">RHCSA 练习题上篇</a><time datetime="2023-02-15T03:11:22.000Z" title="发表于 2023-02-15 11:11:22">2023-02-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/dsad3d2s.html" title="科学上网-Clash 使用教程"><img src="https://s1.ax1x.com/2023/02/13/pSoMtcn.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="科学上网-Clash 使用教程"/></a><div class="content"><a class="title" href="/post/dsad3d2s.html" title="科学上网-Clash 使用教程">科学上网-Clash 使用教程</a><time datetime="2023-02-11T08:11:22.000Z" title="发表于 2023-02-11 16:11:22">2023-02-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/82jj2l2k.html" title="基于CentOS编译部署RabbitMQ"><img src="https://s1.ax1x.com/2023/02/07/pSg27Oe.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于CentOS编译部署RabbitMQ"/></a><div class="content"><a class="title" href="/post/82jj2l2k.html" title="基于CentOS编译部署RabbitMQ">基于CentOS编译部署RabbitMQ</a><time datetime="2023-02-03T07:15:29.000Z" title="发表于 2023-02-03 15:15:29">2023-02-03</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By 路伊斯</div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://nues.cn/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-circle-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo.nues.cn/',
+      region: 'ap-shanghai',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo.nues.cn/',
+      region: 'ap-shanghai',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.staticfile.org/twikoo/1.6.8/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script async src="/js/fps.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://www.nues.cn/categories/系统运维/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📈 系统运维 (30)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.nues.cn/categories/Ops/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🔥 Ops (8)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.nues.cn/categories/数据库/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📂 数据库 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.nues.cn/categories/编程开发/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">👩‍💻 编程开发 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.nues.cn/categories/网络技术/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💺 网络技术 (3)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.nues.cn/categories/资源共享/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📤 资源共享 (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://www.nues.cn/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #69e8f2}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.2.0" title=""><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.3.1" title=""><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/23213g24.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s1.ax1x.com/2023/02/18/pSLpvmF.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/23213g24.html&quot;);" href="javascript:void(0);" alt="">RHCSA 练习题上篇</a><div class="blog-slider__text">RHCSA 练习题上篇</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/23213g24.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/23dsad21.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s1.ax1x.com/2023/02/18/pSLpvmF.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-02-18</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/23dsad21.html&quot;);" href="javascript:void(0);" alt="">RHCSA 练习题中篇</a><div class="blog-slider__text">RHCSA 练习题中篇</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/23dsad21.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/605bc312.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s1.ax1x.com/2023/02/06/pScw9Gd.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/605bc312.html&quot;);" href="javascript:void(0);" alt="">Git常用命令大全</a><div class="blog-slider__text">Git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/605bc312.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;post/81fccbc7.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="https://s1.ax1x.com/2023/02/06/pScsKKA.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-01</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;post/81fccbc7.html&quot;);" href="javascript:void(0);" alt="">Docker 备忘录</a><div class="blog-slider__text">Docker是一个用于开发、传送和运行应用程序的开放平台。Docker 使您能够将应用程序与基础设施分开，以便您可以快速交付软件。使用 Docker，您可以像管理应用程序一样管理基础设施。通过利用 Docker 的快速交付、测试和部署代码的方法，您可以显着减少编写代码和在生产中运行代码之间的延迟。在这篇文章中，我将提到我们需要或大多数用例的 docker 命令。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;post/81fccbc7.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('gitZone');
+      var item_html = '<div class="recent-post-item" id="gitcalendarBar" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('gitZone') && (location.pathname ==='/about/'|| '/about/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://gitcalendar.fomal.cc/api?Isslower",['#d9e0df', '#c6e0dc', '#a8dcd4', '#9adcd2', '#89ded1', '#77e0d0', '#5fdecb', '#47dcc6', '#39dcc3', '#1fdabe', '#00dab9'],'Isslower')
+    }
+  </script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
