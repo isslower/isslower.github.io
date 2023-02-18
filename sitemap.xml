@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.nues.cn/post/23dsad21.html</loc>
+    <loc>http://www.nues.cn/post/23dsadsa.html</loc>
     
     <lastmod>2023-02-18</lastmod>
     
@@ -12,6 +12,15 @@
   
   <url>
     <loc>http://www.nues.cn/post/23213g24.html</loc>
+    
+    <lastmod>2023-02-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.nues.cn/post/dwqjid11.html</loc>
     
     <lastmod>2023-02-18</lastmod>
     
@@ -282,15 +291,6 @@
   
   <url>
     <loc>http://www.nues.cn/post/wws12w20.html</loc>
-    
-    <lastmod>2023-02-06</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.nues.cn/post/dwqjid11.html</loc>
     
     <lastmod>2023-02-06</lastmod>
     
@@ -829,13 +829,6 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/tags/Xargs/</loc>
-    <lastmod>2023-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://www.nues.cn/tags/Sed/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -843,7 +836,7 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/tags/Nohup/</loc>
+    <loc>http://www.nues.cn/tags/Xargs/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -851,6 +844,13 @@
   
   <url>
     <loc>http://www.nues.cn/tags/egrep/</loc>
+    <lastmod>2023-02-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.nues.cn/tags/Nohup/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -915,14 +915,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/Ops/Docker/</loc>
+    <loc>http://www.nues.cn/categories/Ops/Ansible/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/Ops/Ansible/</loc>
+    <loc>http://www.nues.cn/categories/Ops/Docker/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -936,14 +936,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/Ops/GitLab/</loc>
+    <loc>http://www.nues.cn/categories/Ops/Git/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/Ops/Git/</loc>
+    <loc>http://www.nues.cn/categories/Ops/GitLab/</loc>
     <lastmod>2023-02-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
