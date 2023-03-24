@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.nues.cn/post/shuwnw29.html</loc>
+    
+    <lastmod>2023-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.nues.cn/post/3sd2juoj.html</loc>
+    
+    <lastmod>2023-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.nues.cn/post/12dsii90.html</loc>
+    
+    <lastmod>2023-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/post/sk2ll220.html</loc>
     
     <lastmod>2023-03-24</lastmod>
@@ -755,6 +782,13 @@
   </url>
   
   <url>
+    <loc>http://www.nues.cn/tags/%E7%BC%93%E5%AD%98/</loc>
+    <lastmod>2023-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/tags/%E9%82%AE%E7%AE%B1/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -847,6 +881,13 @@
   
   <url>
     <loc>http://www.nues.cn/tags/keepalived/</loc>
+    <lastmod>2023-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.nues.cn/tags/python/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1042,6 +1083,13 @@
   </url>
   
   <url>
+    <loc>http://www.nues.cn/tags/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/</loc>
+    <lastmod>2023-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/tags/%E4%B8%BB%E4%BB%8E%E5%A4%87%E4%BB%BD/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -1184,14 +1232,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/</loc>
+    <loc>http://www.nues.cn/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/Shell/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/Shell/</loc>
+    <loc>http://www.nues.cn/categories/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1212,7 +1260,21 @@
   </url>
   
   <url>
+    <loc>http://www.nues.cn/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/</loc>
+    <lastmod>2023-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/</loc>
+    <lastmod>2023-03-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.nues.cn/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/Python/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1234,13 +1296,6 @@
   
   <url>
     <loc>http://www.nues.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/</loc>
-    <lastmod>2023-03-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.nues.cn/categories/%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB/%E8%BD%AF%E4%BB%B6%E5%88%86%E4%BA%AB/</loc>
     <lastmod>2023-03-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
