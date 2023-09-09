@@ -353,6 +353,15 @@
   </url>
   
   <url>
+    <loc>http://www.nues.cn/post/822f2234.html</loc>
+    
+    <lastmod>2023-09-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/post/5g4fdd33.html</loc>
     
     <lastmod>2023-09-01</lastmod>
@@ -861,14 +870,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/tags/%E9%82%AE%E7%AE%B1/</loc>
+    <loc>http://www.nues.cn/tags/%E5%9F%BA%E7%BA%BF%E6%A3%80%E6%9F%A5/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/tags/%E5%9F%BA%E7%BA%BF%E6%A3%80%E6%9F%A5/</loc>
+    <loc>http://www.nues.cn/tags/%E9%82%AE%E7%AE%B1/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1346,14 +1355,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/</loc>
+    <loc>http://www.nues.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/</loc>
+    <loc>http://www.nues.cn/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
