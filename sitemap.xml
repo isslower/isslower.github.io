@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>http://www.nues.cn/post/8jj8s7hh.html</loc>
+    
+    <lastmod>2023-09-09</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/post/8jw204j2.html</loc>
     
     <lastmod>2023-09-04</lastmod>
@@ -336,15 +345,6 @@
   
   <url>
     <loc>http://www.nues.cn/post/822f2234.html</loc>
-    
-    <lastmod>2023-09-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.nues.cn/post/8jj8s7hh.html</loc>
     
     <lastmod>2023-09-01</lastmod>
     
@@ -819,14 +819,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/tags/for/</loc>
+    <loc>http://www.nues.cn/tags/shellcheck/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/tags/shellcheck/</loc>
+    <loc>http://www.nues.cn/tags/for/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1085,6 +1085,13 @@
   </url>
   
   <url>
+    <loc>http://www.nues.cn/tags/Leanote/</loc>
+    <lastmod>2023-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://www.nues.cn/tags/Java/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -1107,13 +1114,6 @@
   
   <url>
     <loc>http://www.nues.cn/tags/Jdk/</loc>
-    <lastmod>2023-09-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://www.nues.cn/tags/Leanote/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1248,14 +1248,14 @@
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/Ops/Git/</loc>
+    <loc>http://www.nues.cn/categories/Ops/GitLab/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://www.nues.cn/categories/Ops/GitLab/</loc>
+    <loc>http://www.nues.cn/categories/Ops/Git/</loc>
     <lastmod>2023-09-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
